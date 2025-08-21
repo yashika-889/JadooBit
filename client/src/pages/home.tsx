@@ -138,10 +138,35 @@ export default function Home() {
     }, 800);
   };
 
-  const handleSummon = async () => {
-    setIsSummoning(true);
+  const playCustomVoice = async () => {
+    try {
+      // Check if custom audio file exists
+      // Replace 'jadoo-voice.mp3' with your actual audio file name
+      const audio = new Audio('/assets/jadoo-voice.mp3');
+      
+      audio.oncanplay = () => {
+        audio.play().catch(error => {
+          console.error("Audio playback failed:", error);
+          // Fallback to synthesized sound
+          playFallbackJadooSound();
+        });
+      };
+      
+      audio.onerror = () => {
+        console.error("Audio file not found, using fallback sound");
+        // Fallback to synthesized sound
+        playFallbackJadooSound();
+      };
+      
+      audio.load();
+      
+    } catch (error) {
+      console.error("Custom audio error:", error);
+      playFallbackJadooSound();
+    }
+  };
 
-    // Create audio context and generate Jadoo voice effect
+  const playFallbackJadooSound = () => {
     try {
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
@@ -161,26 +186,25 @@ export default function Home() {
       oscillator.type = 'sine';
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + 1.5);
-
-      toast({
-        title: "Jadoo Summoned! 👽",
-        description: "The alien magic is in the air...",
-      });
-
-      setTimeout(() => {
-        setIsSummoning(false);
-      }, 2000);
     } catch (error) {
-      console.error("Audio context error:", error);
-      // Fallback without audio
-      toast({
-        title: "Jadoo Summoned! 👽",
-        description: "The alien magic is in the air...",
-      });
-      setTimeout(() => {
-        setIsSummoning(false);
-      }, 2000);
+      console.error("Fallback audio error:", error);
     }
+  };
+
+  const handleSummon = async () => {
+    setIsSummoning(true);
+
+    // Play custom voice or fallback sound
+    playCustomVoice();
+
+    toast({
+      title: "Jadoo Summoned! 👽",
+      description: "The alien magic is in the air...",
+    });
+
+    setTimeout(() => {
+      setIsSummoning(false);
+    }, 2000);
   };
 
   const copyToClipboard = async () => {
