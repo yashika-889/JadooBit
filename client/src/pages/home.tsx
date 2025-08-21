@@ -30,6 +30,73 @@ export default function Home() {
     return result.trim();
   };
 
+  const playConversionSound = () => {
+    try {
+      // Create a synthesized "conversion" sound effect
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      
+      // Create multiple oscillators for a richer sound
+      const oscillator1 = audioContext.createOscillator();
+      const oscillator2 = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator1.connect(gainNode);
+      oscillator2.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      // Create a digital conversion sound effect
+      oscillator1.frequency.setValueAtTime(800, audioContext.currentTime);
+      oscillator1.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
+      oscillator1.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.3);
+      
+      oscillator2.frequency.setValueAtTime(1200, audioContext.currentTime);
+      oscillator2.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.2);
+      oscillator2.frequency.exponentialRampToValueAtTime(1000, audioContext.currentTime + 0.4);
+      
+      gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.05, audioContext.currentTime + 0.2);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+      
+      oscillator1.type = 'square';
+      oscillator2.type = 'triangle';
+      
+      oscillator1.start(audioContext.currentTime);
+      oscillator1.stop(audioContext.currentTime + 0.5);
+      oscillator2.start(audioContext.currentTime + 0.05);
+      oscillator2.stop(audioContext.currentTime + 0.45);
+      
+    } catch (error) {
+      console.log("Audio playback not supported");
+    }
+  };
+
+  const playCompletionSound = () => {
+    try {
+      // Create a success/completion sound
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      // Create ascending completion chime
+      oscillator.frequency.setValueAtTime(523, audioContext.currentTime); // C5
+      oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1); // E5
+      oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2); // G5
+      
+      gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+      
+      oscillator.type = 'sine';
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.4);
+      
+    } catch (error) {
+      console.log("Audio playback not supported");
+    }
+  };
+
   const handleConvert = async () => {
     if (!input.trim()) {
       toast({
@@ -42,12 +109,20 @@ export default function Home() {
 
     setIsConverting(true);
     
+    // Play conversion sound
+    playConversionSound();
+    
     // Simulate conversion delay for effect
     setTimeout(() => {
       const jadooBits = convertToJadooBits(input);
       setOutput(jadooBits);
       setShowOutput(true);
       setIsConverting(false);
+      
+      // Play completion sound after conversion is done
+      setTimeout(() => {
+        playCompletionSound();
+      }, 100);
     }, 800);
   };
 
