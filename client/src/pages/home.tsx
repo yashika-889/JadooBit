@@ -18,13 +18,18 @@ export default function Home() {
     if (!text.trim()) return '';
     
     let result = '';
-    const pattern = 'I am jadoo ';
     
     for (let char of text) {
       const asciiCode = char.charCodeAt(0);
-      const binaryLength = asciiCode.toString(2).length;
-      const repetitions = Math.max(1, Math.floor(binaryLength / 2));
-      result += pattern.repeat(repetitions) + '• ';
+      const binaryString = asciiCode.toString(2).padStart(8, '0'); // Ensure 8-bit representation
+      
+      // Convert each binary digit to Jadoo format
+      const jadooBinary = binaryString
+        .split('')
+        .map(bit => bit === '1' ? 'I am jadoo' : '0')
+        .join(' ');
+      
+      result += `${char}: ${jadooBinary}\n`;
     }
     
     return result.trim();
@@ -193,7 +198,7 @@ export default function Home() {
     }
   };
 
-  const outputStats = output ? `${output.split('•').length - 1} magical bits generated` : "0 magical bits generated";
+  const outputStats = output ? `${output.split('\n').length} characters converted to Jadoo binary` : "0 characters converted";
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-jadoo-dark via-slate-800 to-black text-white overflow-x-hidden">
@@ -288,10 +293,10 @@ export default function Home() {
                   <span className="mr-2">💻</span>
                   Jadoo Bits Output
                 </h3>
-                <div className="bg-black/30 rounded-xl p-4 font-mono text-sm leading-relaxed min-h-20 max-h-40 overflow-y-auto scrollbar-custom">
-                  <span className="text-jadoo-teal" data-testid="text-output">
+                <div className="bg-black/30 rounded-xl p-4 font-mono text-sm leading-relaxed min-h-20 max-h-60 overflow-y-auto scrollbar-custom">
+                  <pre className="text-jadoo-teal whitespace-pre-wrap" data-testid="text-output">
                     {output || "Your magical bits will appear here..."}
-                  </span>
+                  </pre>
                 </div>
                 <div className="mt-4 flex justify-between items-center">
                   <span className="text-sm text-slate-400" data-testid="text-stats">
