@@ -17,22 +17,29 @@ export default function Home() {
   const convertToJadooBits = (text: string): string => {
     if (!text.trim()) return '';
     
-    let result = '';
+    const binaryArray: string[] = [];
     
+    // Convert input text to binary
     for (let char of text) {
       const asciiCode = char.charCodeAt(0);
-      const binaryString = asciiCode.toString(2).padStart(8, '0'); // Ensure 8-bit representation
-      
-      // Convert each binary digit to Jadoo format
-      const jadooBinary = binaryString
-        .split('')
-        .map(bit => bit === '1' ? 'I am jadoo' : '0')
-        .join(' ');
-      
-      result += `${char}: ${jadooBinary}\n`;
+      const binaryString = asciiCode.toString(2).padStart(8, '0');
+      binaryArray.push(binaryString);
     }
     
-    return result.trim();
+    // Add space and then "I am jadoo" in binary
+    binaryArray.push('00100000'); // space character
+    
+    const jadooText = "I am jadoo";
+    for (let char of jadooText) {
+      const asciiCode = char.charCodeAt(0);
+      const binaryString = asciiCode.toString(2).padStart(8, '0');
+      binaryArray.push(binaryString);
+    }
+    
+    // Add newline character at the end
+    binaryArray.push('00001010');
+    
+    return binaryArray.join(' ');
   };
 
   const playConversionSound = () => {
@@ -198,7 +205,7 @@ export default function Home() {
     }
   };
 
-  const outputStats = output ? `${output.split('\n').length} characters converted to Jadoo binary` : "0 characters converted";
+  const outputStats = output ? `${output.split(' ').length} bytes of Jadoo binary data` : "0 bytes converted";
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-jadoo-dark via-slate-800 to-black text-white overflow-x-hidden">
