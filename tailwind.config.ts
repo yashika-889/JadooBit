@@ -65,6 +65,10 @@ export default {
         "jadoo-teal": "var(--jadoo-teal)",
         "jadoo-green": "var(--jadoo-green)",
         "jadoo-input": "var(--jadoo-input)",
+        "night-purple": "var(--night-purple)",
+        "night-blue": "var(--night-blue)",
+        "star-gold": "var(--star-gold)",
+        "star-silver": "var(--star-silver)",
       },
       fontFamily: {
         sans: ["var(--font-sans)"],

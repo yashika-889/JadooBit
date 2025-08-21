@@ -232,12 +232,31 @@ export default function Home() {
   const outputStats = output ? `${output.split(' ').length} bytes of Jadoo binary data` : "0 bytes converted";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-jadoo-dark via-slate-800 to-black text-white overflow-x-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-jadoo-teal rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-24 h-24 bg-jadoo-green rounded-full blur-2xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-purple-500 rounded-full blur-xl animate-bounce delay-500"></div>
+    <div className="min-h-screen bg-gradient-to-br from-night-blue via-night-purple to-jadoo-dark text-white overflow-x-hidden relative">
+      {/* Starry Night Sky Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Large twinkling stars */}
+        <div className="absolute top-20 left-10 w-2 h-2 bg-star-gold rounded-full animate-twinkle"></div>
+        <div className="absolute top-32 right-20 w-1.5 h-1.5 bg-star-silver rounded-full animate-twinkle-fast"></div>
+        <div className="absolute top-1/4 left-1/3 w-2.5 h-2.5 bg-star-gold rounded-full animate-twinkle-slow"></div>
+        <div className="absolute top-1/3 right-1/4 w-1 h-1 bg-star-silver rounded-full animate-twinkle"></div>
+        <div className="absolute top-1/2 left-1/5 w-1.5 h-1.5 bg-star-gold rounded-full animate-twinkle-fast"></div>
+        <div className="absolute bottom-1/3 right-1/3 w-2 h-2 bg-star-silver rounded-full animate-twinkle-slow"></div>
+        <div className="absolute bottom-20 left-1/4 w-1 h-1 bg-star-gold rounded-full animate-twinkle"></div>
+        <div className="absolute bottom-32 right-10 w-1.5 h-1.5 bg-star-silver rounded-full animate-twinkle-fast"></div>
+        
+        {/* Small scattered stars */}
+        <div className="absolute top-16 left-1/2 w-0.5 h-0.5 bg-star-silver rounded-full animate-twinkle opacity-70"></div>
+        <div className="absolute top-24 left-3/4 w-0.5 h-0.5 bg-star-gold rounded-full animate-twinkle-slow opacity-60"></div>
+        <div className="absolute top-40 right-1/2 w-0.5 h-0.5 bg-star-silver rounded-full animate-twinkle-fast opacity-80"></div>
+        <div className="absolute top-2/3 left-2/3 w-0.5 h-0.5 bg-star-gold rounded-full animate-twinkle opacity-50"></div>
+        <div className="absolute bottom-40 left-1/6 w-0.5 h-0.5 bg-star-silver rounded-full animate-twinkle-slow opacity-70"></div>
+        <div className="absolute bottom-24 right-1/5 w-0.5 h-0.5 bg-star-gold rounded-full animate-twinkle-fast opacity-60"></div>
+        
+        {/* Magical nebula effect */}
+        <div className="absolute top-16 left-16 w-32 h-32 bg-jadoo-teal rounded-full blur-3xl opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-16 right-16 w-24 h-24 bg-jadoo-green rounded-full blur-2xl opacity-15 animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 right-1/3 w-20 h-20 bg-purple-400 rounded-full blur-xl opacity-10 animate-bounce delay-500"></div>
       </div>
 
       <div className="min-h-screen flex flex-col items-center justify-center p-4 relative z-10">
@@ -260,7 +279,7 @@ export default function Home() {
           </div>
 
           {/* Converter Form */}
-          <Card className="bg-slate-800/50 backdrop-blur-sm border-slate-700/50 mb-6">
+          <Card className="bg-night-blue/60 backdrop-blur-sm border-purple-500/30 mb-6 shadow-2xl shadow-purple-500/10">
             <CardContent className="p-6">
               <div className="mb-6">
                 <Input
@@ -269,7 +288,7 @@ export default function Home() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Type anything. Jadoo won't care 😊"
-                  className="bg-jadoo-input border-slate-600 text-white placeholder-slate-400 focus:ring-jadoo-teal focus:border-transparent"
+                  className="bg-night-blue/80 border-purple-400/50 text-white placeholder-purple-200/70 focus:ring-jadoo-teal focus:border-jadoo-teal"
                   data-testid="input-converter"
                 />
               </div>
@@ -318,26 +337,26 @@ export default function Home() {
 
           {/* Output Display */}
           {showOutput && (
-            <Card className="bg-slate-900/60 backdrop-blur-sm border-slate-600/50 animate-slideUp">
+            <Card className="bg-night-purple/40 backdrop-blur-sm border-purple-400/40 animate-slideUp shadow-2xl shadow-purple-500/20">
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-4 text-jadoo-teal flex items-center">
                   <span className="mr-2">💻</span>
                   Jadoo Bits Output
                 </h3>
-                <div className="bg-black/30 rounded-xl p-4 font-mono text-sm leading-relaxed min-h-20 max-h-60 overflow-y-auto scrollbar-custom">
-                  <pre className="text-jadoo-teal whitespace-pre-wrap" data-testid="text-output">
+                <div className="bg-black/40 rounded-xl p-4 font-mono text-sm leading-relaxed min-h-20 max-h-60 overflow-y-auto scrollbar-custom border border-purple-400/20">
+                  <pre className="text-star-gold whitespace-pre-wrap" data-testid="text-output">
                     {output || "Your magical bits will appear here..."}
                   </pre>
                 </div>
                 <div className="mt-4 flex justify-between items-center">
-                  <span className="text-sm text-slate-400" data-testid="text-stats">
+                  <span className="text-sm text-purple-200/70" data-testid="text-stats">
                     {outputStats}
                   </span>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={copyToClipboard}
-                    className="text-jadoo-teal hover:text-teal-300 hover:bg-slate-700/50"
+                    className="text-star-gold hover:text-star-silver hover:bg-night-purple/50"
                     data-testid="button-copy"
                   >
                     <Copy className="w-4 h-4" />
