@@ -1,0 +1,51 @@
+Act as an expert frontend developer. Your task is to integrate a dynamic, humorous image into my "Jadoo Bit Converter" application to enhance the user experience. I have uploaded the required image as dhoop-image.jpg into my project's assets.
+
+Please implement the following with clean, modern code (e.g., using React Hooks if applicable).
+
+1. State Management:
+Introduce a state variable to manage the output content. This state should control both the binary text and the visibility of the new image. A good structure would be an object, for example:
+const [output, setOutput] = useState({ binaryText: '', showImage: false });
+
+2. Conditional UI Rendering:
+Below the existing "Jadoo Bits Output" container, add a new div that will wrap the image.
+
+This wrapper div should be rendered only when output.showImage is true.
+
+Inside this wrapper, place an <img> tag with its src attribute pointing to the dhoop-image.jpg file.
+
+3. Styling and Animation (Crucial for Polish):
+Apply CSS to the new image and its wrapper to ensure it looks professional:
+
+Spacing: Add a top margin (e.g., 24px) to the wrapper to create space between the binary text and the image.
+
+Responsiveness: Ensure the image is responsive by setting its max-width to 100% and height to auto.
+
+Centering: Center the image horizontally.
+
+Animation: Apply a smooth fade-in and scale-up animation using CSS transitions when the image appears. For example: opacity: 0; transform: scale(0.9); initially, transitioning to opacity: 1; transform: scale(1); when visible.
+
+4. Update Button Logic:
+Modify the onClick handler for the "Summon Jadoo" button. When clicked, it should:
+
+Perform the text-to-binary conversion.
+
+Update the state to show the result and the image: setOutput({ binaryText: 'THE_CONVERTED_BINARY', showImage: true });
+
+Play the sound effect as it currently does.
+
+5. Implement a Reset Mechanism (Most Important Step):
+The old result and image should disappear when the user prepares to make a new request.
+
+Modify the onChange event handler for the main text input field.
+
+Whenever the user types into the input, it should immediately reset the output state: setOutput({ binaryText: '', showImage: false });
+
+Summary of the Final User Flow:
+
+The user clicks "Summon Jadoo."
+
+The binary result appears, the sound plays, and the dhoop-image.jpg smoothly animates into view below it.
+
+The user then clicks back on the input box and types a new character.
+
+As soon as they type, the old binary text and the dhoop image instantly disappear, cleaning the UI for the next "summoning."

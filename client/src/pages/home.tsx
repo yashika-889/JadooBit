@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [output, setOutput] = useState("");
+  const [output, setOutput] = useState({ binaryText: '', showImage: false });
   const [isConverting, setIsConverting] = useState(false);
   const [isSummoning, setIsSummoning] = useState(false);
   const [showOutput, setShowOutput] = useState(false);
@@ -186,7 +186,7 @@ export default function Home() {
     // Perform conversion with delay for effect
     setTimeout(() => {
       const jadooBits = convertToJadooBits(input);
-      setOutput(jadooBits);
+      setOutput({ binaryText: jadooBits, showImage: true });
       setShowOutput(true);
       setIsConverting(false);
       
@@ -208,7 +208,7 @@ export default function Home() {
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(output);
+      await navigator.clipboard.writeText(output.binaryText);
       toast({
         title: "Copied!",
         description: "Jadoo bits copied to clipboard",
@@ -228,7 +228,7 @@ export default function Home() {
     }
   };
 
-  const outputStats = output ? `${output.split(' ').length} bytes of Jadoo binary data` : "0 bytes converted";
+  const outputStats = output.binaryText ? `${output.binaryText.split(' ').length} bytes of Jadoo binary data` : "0 bytes converted";
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-night-blue via-night-purple to-jadoo-dark text-white overflow-x-hidden relative">
@@ -284,7 +284,12 @@ export default function Home() {
                 <Input
                   type="text"
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={(e) => {
+                    setInput(e.target.value);
+                    // Reset output when user starts typing
+                    setOutput({ binaryText: '', showImage: false });
+                    setShowOutput(false);
+                  }}
                   onKeyPress={handleKeyPress}
                   placeholder="Type anything. Jadoo won't care 😊"
                   className="bg-night-blue/80 border-purple-400/50 text-star-gold placeholder-purple-200/70 focus:ring-jadoo-teal focus:border-jadoo-teal focus:text-star-gold"
@@ -326,7 +331,7 @@ export default function Home() {
                 </h3>
                 <div className="bg-black/40 rounded-xl p-4 font-mono text-sm leading-relaxed min-h-20 max-h-60 overflow-y-auto scrollbar-custom border border-purple-400/20">
                   <pre className="text-star-gold whitespace-pre-wrap" data-testid="text-output">
-                    {output || "Your magical bits will appear here..."}
+                    {output.binaryText || "Your magical bits will appear here..."}
                   </pre>
                 </div>
                 <div className="mt-4 flex justify-between items-center">
@@ -345,6 +350,27 @@ export default function Home() {
                 </div>
               </CardContent>
             </Card>
+          )}
+
+          {/* Dynamic Humorous Image */}
+          {output.showImage && (
+            <div 
+              className="mt-6 flex justify-center animate-fadeIn"
+              style={{
+                animation: 'imageSlideUp 0.6s ease-out forwards'
+              }}
+            >
+              <img 
+                src="/assets/dhoop-image.jpg" 
+                alt="Jadoo Dhoop Celebration" 
+                className="max-w-full h-auto rounded-xl shadow-2xl shadow-purple-500/30 border border-star-gold/20"
+                style={{
+                  maxWidth: '300px',
+                  animation: 'imageAppear 0.6s ease-out forwards'
+                }}
+                data-testid="dhoop-image"
+              />
+            </div>
           )}
         </div>
 
