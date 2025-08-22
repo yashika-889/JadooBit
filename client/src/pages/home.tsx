@@ -291,8 +291,8 @@ export default function Home() {
                     setShowOutput(false);
                   }}
                   onKeyPress={handleKeyPress}
-                  placeholder="Type anything. Jadoo won't care 😊"
-                  className="bg-night-blue/80 border-purple-400/50 text-star-gold placeholder-purple-200/70 focus:ring-jadoo-teal focus:border-jadoo-teal focus:text-star-gold"
+                  placeholder="Oom oom oom... 👽 (Jadoo is online!)"
+                  className="bg-night-blue/80 border-purple-400/50 text-black placeholder-purple-200/70 focus:ring-jadoo-teal focus:border-jadoo-teal focus:text-black"
                   data-testid="input-converter"
                 />
               </div>
