@@ -109,34 +109,7 @@ export default function Home() {
     }
   };
 
-  const handleConvert = async () => {
-    if (!input.trim()) {
-      toast({
-        title: "Empty Input",
-        description: "Please enter some text or numbers to convert!",
-        variant: "destructive",
-      });
-      return;
-    }
 
-    setIsConverting(true);
-    
-    // Play conversion sound
-    playConversionSound();
-    
-    // Simulate conversion delay for effect
-    setTimeout(() => {
-      const jadooBits = convertToJadooBits(input);
-      setOutput(jadooBits);
-      setShowOutput(true);
-      setIsConverting(false);
-      
-      // Play completion sound after conversion is done
-      setTimeout(() => {
-        playCompletionSound();
-      }, 100);
-    }, 800);
-  };
 
   const playCustomVoice = async () => {
     try {
@@ -192,14 +165,40 @@ export default function Home() {
   };
 
   const handleSummon = async () => {
-    setIsSummoning(true);
+    if (!input.trim()) {
+      toast({
+        title: "Empty Input",
+        description: "Please enter some text or numbers to convert!",
+        variant: "destructive",
+      });
+      return;
+    }
 
+    setIsSummoning(true);
+    setIsConverting(true);
+
+    // Play conversion sound first
+    playConversionSound();
+    
     // Play custom voice or fallback sound
     playCustomVoice();
 
+    // Perform conversion with delay for effect
+    setTimeout(() => {
+      const jadooBits = convertToJadooBits(input);
+      setOutput(jadooBits);
+      setShowOutput(true);
+      setIsConverting(false);
+      
+      // Play completion sound after conversion is done
+      setTimeout(() => {
+        playCompletionSound();
+      }, 100);
+    }, 800);
+
     toast({
       title: "Jadoo Summoned! 👽",
-      description: "The alien magic is in the air...",
+      description: "The alien magic is converting your text...",
     });
 
     setTimeout(() => {
@@ -224,8 +223,8 @@ export default function Home() {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !isConverting) {
-      handleConvert();
+    if (e.key === 'Enter' && !isSummoning) {
+      handleSummon();
     }
   };
 
@@ -293,40 +292,22 @@ export default function Home() {
                 />
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button
-                  onClick={handleConvert}
-                  disabled={isConverting}
-                  className="flex-1 bg-jadoo-teal hover:bg-teal-400 text-slate-900 font-semibold shadow-lg hover:shadow-jadoo-teal/25 transition-all duration-200 transform hover:scale-105 active:scale-95"
-                  data-testid="button-convert"
-                >
-                  {isConverting ? (
-                    <>
-                      <div className="animate-spin w-4 h-4 border-2 border-slate-900/20 border-t-slate-900 rounded-full mr-2"></div>
-                      Converting...
-                    </>
-                  ) : (
-                    <>
-                      <Wand2 className="w-4 h-4 mr-2" />
-                      Convert
-                    </>
-                  )}
-                </Button>
-
+              <div className="flex justify-center">
                 <Button
                   onClick={handleSummon}
                   disabled={isSummoning}
-                  className="flex-1 bg-jadoo-green hover:bg-green-400 text-slate-900 font-semibold shadow-lg hover:shadow-jadoo-green/25 transition-all duration-200 transform hover:scale-105 active:scale-95"
+                  className="w-full bg-jadoo-green hover:bg-green-400 text-slate-900 font-semibold shadow-lg hover:shadow-jadoo-green/25 transition-all duration-200 transform hover:scale-105 active:scale-95"
                   data-testid="button-summon"
                 >
                   {isSummoning ? (
                     <>
                       <div className="animate-spin w-4 h-4 border-2 border-slate-900/20 border-t-slate-900 rounded-full mr-2"></div>
-                      Summoning...
+                      Converting & Summoning...
                     </>
                   ) : (
                     <>
                       <Volume2 className="w-4 h-4 mr-2" />
+                      <Wand2 className="w-4 h-4 mr-2" />
                       Summon Jadoo
                     </>
                   )}
