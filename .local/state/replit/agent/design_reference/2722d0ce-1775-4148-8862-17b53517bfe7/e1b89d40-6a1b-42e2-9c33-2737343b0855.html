@@ -1,0 +1,448 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadoo Binary Converter - Koi Mil Gaya Tribute</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'space-navy': '#0f172a',
+                        'alien-green': '#10b981',
+                        'cosmic-amber': '#f59e0b',
+                        'soft-white': '#f8fafc',
+                        'star-gray': '#64748b',
+                    },
+                    animation: {
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite alternate',
+                        'float': 'float 3s ease-in-out infinite',
+                        'binary-stream': 'binary-stream 1s ease-out',
+                    },
+                    keyframes: {
+                        'pulse-glow': {
+                            '0%': { boxShadow: '0 0 5px rgba(16, 185, 129, 0.5)' },
+                            '100%': { boxShadow: '0 0 20px rgba(16, 185, 129, 0.8)' },
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        'binary-stream': {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="font-inter bg-gradient-to-br from-space-navy via-slate-900 to-space-navy min-h-screen">
+    <!-- Background Stars Animation -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-alien-green rounded-full animate-pulse opacity-60"></div>
+        <div class="absolute top-1/3 right-1/3 w-1 h-1 bg-cosmic-amber rounded-full animate-pulse opacity-40"></div>
+        <div class="absolute bottom-1/4 left-1/3 w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse opacity-50"></div>
+        <div class="absolute top-2/3 right-1/4 w-1 h-1 bg-purple-400 rounded-full animate-pulse opacity-30"></div>
+        <div class="absolute bottom-1/3 right-1/2 w-2 h-2 bg-alien-green rounded-full animate-pulse opacity-70"></div>
+    </div>
+
+    <!-- @COMPONENT: Header -->
+    <header class="relative z-10 pt-8 pb-4">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold text-soft-white mb-2 animate-float">
+                <span class="text-alien-green">Jadoo</span> Binary Converter
+            </h1>
+            <p class="text-star-gray text-lg md:text-xl mb-2">
+                "कोई मिल गया" - Convert anything to Jadoo's language!
+            </p>
+            <div class="flex justify-center items-center space-x-2 text-cosmic-amber">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="text-sm">Powered by Alien Technology</span>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: Header -->
+
+    <!-- @COMPONENT: MainConverter -->
+    <main class="relative z-10 flex-1 flex items-center justify-center px-4 py-8">
+        <div class="w-full max-w-4xl">
+            <!-- Converter Card -->
+            <div class="bg-slate-800/90 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-2xl p-6 md:p-8 mb-8">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Input Section -->
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-2 mb-4">
+                            <svg class="w-6 h-6 text-alien-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                            <h2 class="text-xl font-semibold text-soft-white">Input</h2>
+                        </div>
+                        
+                        <!-- Input Type Selection -->
+                        <div class="flex space-x-2 mb-4">
+                            <button id="stringBtn" class="px-4 py-2 rounded-lg bg-alien-green text-white font-medium transition-all hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-alien-green focus:ring-offset-2 focus:ring-offset-slate-800">
+                                String
+                            </button>
+                            <button id="decimalBtn" class="px-4 py-2 rounded-lg bg-slate-600 text-white font-medium transition-all hover:bg-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-800">
+                                Decimal
+                            </button>
+                        </div>
+
+                        <!-- Input Field -->
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                id="userInput" 
+                                placeholder="Enter your text or number..."
+                                class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-soft-white placeholder-star-gray focus:outline-none focus:ring-2 focus:ring-alien-green focus:border-transparent transition-all"
+                                data-mock="true"
+                            >
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                                <svg class="w-5 h-5 text-star-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Convert Button -->
+                        <button 
+                            id="convertBtn" 
+                            class="w-full py-3 bg-gradient-to-r from-alien-green to-green-600 text-white font-semibold rounded-lg transition-all hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-alien-green focus:ring-offset-2 focus:ring-offset-slate-800 animate-pulse-glow"
+                            data-event="click:handleConvert"
+                        >
+                            <span class="flex items-center justify-center space-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                                <span>Convert to Jadoo Language</span>
+                            </span>
+                        </button>
+
+                        <!-- Clear Button -->
+                        <button 
+                            id="clearBtn" 
+                            class="w-full py-2 bg-slate-600 text-white font-medium rounded-lg transition-all hover:bg-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-800"
+                            data-event="click:handleClear"
+                        >
+                            Clear All
+                        </button>
+                    </div>
+
+                    <!-- Output Section -->
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-2 mb-4">
+                            <svg class="w-6 h-6 text-cosmic-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            <h2 class="text-xl font-semibold text-soft-white">Jadoo Binary Output</h2>
+                        </div>
+
+                        <!-- Output Display -->
+                        <div class="bg-slate-900 border border-slate-600 rounded-lg p-4 min-h-[200px] max-h-[300px] overflow-y-auto">
+                            <div id="binaryOutput" class="font-mono text-sm leading-relaxed">
+                                <div class="text-star-gray text-center py-8">
+                                    <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                                    </svg>
+                                    <p>Your Jadoo binary will appear here...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Audio Control -->
+                        <div class="flex items-center justify-between bg-slate-700 rounded-lg p-3">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-5 h-5 text-cosmic-amber" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.617.796L4.828 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.828l3.555-3.796A1 1 0 019.383 3.076zM12 6.5a1 1 0 011.732.598 4.992 4.992 0 010 5.804A1 1 0 0112 13.5a3 3 0 000-1zM14.5 4.5a1 1 0 011.732.598 8.972 8.972 0 010 9.804A1 1 0 0114.5 15.5a7 7 0 000-11z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-soft-white text-sm">Jadoo Voice</span>
+                            </div>
+                            <button 
+                                id="playAudioBtn" 
+                                class="px-4 py-2 bg-cosmic-amber text-space-navy font-medium rounded-lg transition-all hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-cosmic-amber focus:ring-offset-2 focus:ring-offset-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled
+                                data-event="click:playJadooVoice"
+                            >
+                                Play Audio
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions Card -->
+            <div class="bg-slate-800/70 backdrop-blur-sm rounded-xl border border-slate-700/30 p-6">
+                <h3 class="text-lg font-semibold text-soft-white mb-4 flex items-center space-x-2">
+                    <svg class="w-5 h-5 text-alien-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>How to Use</span>
+                </h3>
+                <div class="grid md:grid-cols-3 gap-4 text-star-gray">
+                    <div class="flex items-start space-x-3">
+                        <span class="bg-alien-green text-white text-xs px-2 py-1 rounded-full font-semibold mt-1">1</span>
+                        <div>
+                            <p class="text-sm"><strong class="text-soft-white">Choose Input Type:</strong> Select between String or Decimal input.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="bg-cosmic-amber text-space-navy text-xs px-2 py-1 rounded-full font-semibold mt-1">2</span>
+                        <div>
+                            <p class="text-sm"><strong class="text-soft-white">Enter Your Data:</strong> Type any text or number you want to convert.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="bg-purple-500 text-white text-xs px-2 py-1 rounded-full font-semibold mt-1">3</span>
+                        <div>
+                            <p class="text-sm"><strong class="text-soft-white">Convert & Listen:</strong> Click convert and hear Jadoo speak!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- @END_COMPONENT: MainConverter -->
+
+    <!-- @COMPONENT: Footer -->
+    <footer class="relative z-10 py-6 mt-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-star-gray text-sm">
+                Made with 💚 in memory of Jadoo • Inspired by Koi Mil Gaya (2003)
+            </p>
+            <p class="text-star-gray text-xs mt-2">
+                "कुछ रिश्ते कम्प्यूटर की भाषा में भी लिखे जा सकते हैं"
+            </p>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <script>
+        (function() {
+            // @STATE: inputType:string = 'string', currentInput:string = '', binaryOutput:array = []
+            let inputType = 'string';
+            let currentInput = '';
+            let isConverting = false;
+
+            // DOM Elements
+            const stringBtn = document.getElementById('stringBtn');
+            const decimalBtn = document.getElementById('decimalBtn');
+            const userInput = document.getElementById('userInput');
+            const convertBtn = document.getElementById('convertBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const binaryOutput = document.getElementById('binaryOutput');
+            const playAudioBtn = document.getElementById('playAudioBtn');
+
+            // @FUNCTIONALITY: Input type switching between string and decimal modes
+            function switchInputType(type) {
+                inputType = type;
+                
+                if (type === 'string') {
+                    stringBtn.className = 'px-4 py-2 rounded-lg bg-alien-green text-white font-medium transition-all hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-alien-green focus:ring-offset-2 focus:ring-offset-slate-800';
+                    decimalBtn.className = 'px-4 py-2 rounded-lg bg-slate-600 text-white font-medium transition-all hover:bg-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-800';
+                    userInput.placeholder = 'Enter your text...';
+                    userInput.type = 'text';
+                } else {
+                    decimalBtn.className = 'px-4 py-2 rounded-lg bg-alien-green text-white font-medium transition-all hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-alien-green focus:ring-offset-2 focus:ring-offset-slate-800';
+                    stringBtn.className = 'px-4 py-2 rounded-lg bg-slate-600 text-white font-medium transition-all hover:bg-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-800';
+                    userInput.placeholder = 'Enter a decimal number...';
+                    userInput.type = 'number';
+                }
+            }
+
+            // @FUNCTIONALITY: Convert input to "I am jadoo" binary-like representation
+            function convertToJadooBinary(input) {
+                if (!input.trim()) return [];
+                
+                const jadooPhrase = "I am jadoo";
+                const binaryChunks = [];
+                
+                // Convert each character to its ASCII/numeric representation
+                for (let i = 0; i < input.length; i++) {
+                    const char = input[i];
+                    let binaryRep = '';
+                    
+                    if (inputType === 'string') {
+                        // Convert character to ASCII then to binary representation using "I am jadoo"
+                        const ascii = char.charCodeAt(0);
+                        const binaryLength = ascii.toString(2).length;
+                        
+                        // Create pattern based on binary length
+                        for (let j = 0; j < binaryLength; j++) {
+                            binaryRep += jadooPhrase + ' ';
+                        }
+                    } else {
+                        // For numbers, create longer patterns
+                        const digit = parseInt(char) || 0;
+                        for (let j = 0; j <= digit; j++) {
+                            binaryRep += jadooPhrase + ' ';
+                        }
+                    }
+                    
+                    binaryChunks.push({
+                        original: char,
+                        binary: binaryRep.trim(),
+                        color: getRandomColor()
+                    });
+                }
+                
+                return binaryChunks;
+            }
+
+            function getRandomColor() {
+                const colors = ['text-alien-green', 'text-cosmic-amber', 'text-blue-400', 'text-purple-400', 'text-pink-400'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            // @FUNCTIONALITY: Display converted binary with animation
+            function displayBinary(binaryChunks) {
+                binaryOutput.innerHTML = '';
+                
+                if (binaryChunks.length === 0) {
+                    binaryOutput.innerHTML = `
+                        <div class="text-star-gray text-center py-8">
+                            <p>No input to convert</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const container = document.createElement('div');
+                container.className = 'space-y-3';
+
+                binaryChunks.forEach((chunk, index) => {
+                    setTimeout(() => {
+                        const chunkDiv = document.createElement('div');
+                        chunkDiv.className = 'animate-binary-stream';
+                        chunkDiv.innerHTML = `
+                            <div class="flex items-center space-x-2 mb-2">
+                                <span class="text-soft-white bg-slate-700 px-2 py-1 rounded text-xs font-semibold">${chunk.original}</span>
+                                <span class="text-star-gray text-xs">→</span>
+                            </div>
+                            <div class="${chunk.color} text-xs leading-relaxed break-all">
+                                ${chunk.binary}
+                            </div>
+                        `;
+                        container.appendChild(chunkDiv);
+                    }, index * 200);
+                });
+
+                binaryOutput.appendChild(container);
+            }
+
+            // @FUNCTIONALITY: Text-to-speech for Jadoo voice simulation
+            function playJadooVoice() {
+                // TODO: Replace with actual Jadoo audio file when available
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance("I am jadoo");
+                    utterance.rate = 0.8;
+                    utterance.pitch = 1.2;
+                    utterance.volume = 0.8;
+                    
+                    // Try to find a voice that sounds more robotic/alien
+                    const voices = speechSynthesis.getVoices();
+                    const alienVoice = voices.find(voice => 
+                        voice.name.includes('Google') || 
+                        voice.name.includes('Microsoft') ||
+                        voice.lang.includes('en')
+                    );
+                    
+                    if (alienVoice) {
+                        utterance.voice = alienVoice;
+                    }
+                    
+                    speechSynthesis.speak(utterance);
+                } else {
+                    alert('Text-to-speech not supported in your browser');
+                }
+            }
+
+            // @FUNCTIONALITY: Handle conversion process with validation
+            function handleConvert() {
+                const input = userInput.value.trim();
+                
+                if (!input) {
+                    alert('Please enter some text or a number to convert!');
+                    return;
+                }
+
+                if (inputType === 'decimal' && isNaN(input)) {
+                    alert('Please enter a valid decimal number!');
+                    return;
+                }
+
+                if (isConverting) return;
+                
+                isConverting = true;
+                convertBtn.textContent = 'Converting...';
+                convertBtn.disabled = true;
+                
+                setTimeout(() => {
+                    const binaryChunks = convertToJadooBinary(input);
+                    displayBinary(binaryChunks);
+                    playAudioBtn.disabled = false;
+                    
+                    convertBtn.innerHTML = `
+                        <span class="flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            <span>Convert to Jadoo Language</span>
+                        </span>
+                    `;
+                    convertBtn.disabled = false;
+                    isConverting = false;
+                }, 800);
+            }
+
+            // @FUNCTIONALITY: Clear all inputs and outputs
+            function handleClear() {
+                userInput.value = '';
+                binaryOutput.innerHTML = `
+                    <div class="text-star-gray text-center py-8">
+                        <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                        </svg>
+                        <p>Your Jadoo binary will appear here...</p>
+                    </div>
+                `;
+                playAudioBtn.disabled = true;
+            }
+
+            // Event Listeners
+            stringBtn.addEventListener('click', () => switchInputType('string'));
+            decimalBtn.addEventListener('click', () => switchInputType('decimal'));
+            convertBtn.addEventListener('click', handleConvert);
+            clearBtn.addEventListener('click', handleClear);
+            playAudioBtn.addEventListener('click', playJadooVoice);
+            
+            // Enter key support
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleConvert();
+                }
+            });
+
+            // Load voices for speech synthesis
+            if ('speechSynthesis' in window) {
+                speechSynthesis.onvoiceschanged = () => {
+                    // Voices are now loaded
+                };
+            }
+
+            // Initialize
+            switchInputType('string');
+        })();
+    </script>
+</body>
+</html>

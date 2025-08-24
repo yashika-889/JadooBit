@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadoo Bit Converter - Koi Mil Gaya Magic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'jadoo-dark': '#1a365d',
+                        'jadoo-teal': '#4FD1C7',
+                        'jadoo-green': '#48CC6C',
+                        'jadoo-input': '#2D3748'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-jadoo-dark via-slate-800 to-black text-white overflow-x-hidden">
+    
+    <!-- @COMPONENT: JadooBitConverter [Main application container] -->
+    <div class="min-h-screen flex flex-col items-center justify-center p-4 relative">
+        
+        <!-- Background decoration -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-20 left-10 w-32 h-32 bg-jadoo-teal rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-20 right-10 w-24 h-24 bg-jadoo-green rounded-full blur-2xl animate-pulse delay-1000"></div>
+            <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-purple-500 rounded-full blur-xl animate-bounce delay-500"></div>
+        </div>
+
+        <!-- Main container -->
+        <div class="w-full max-w-md mx-auto relative z-10">
+            
+            <!-- @COMPONENT: Header [Jadoo icon and title] -->
+            <div class="text-center mb-8 animate-fadeIn">
+                <!-- Jadoo character icon -->
+                <div class="mb-6 relative">
+                    <div class="text-6xl mb-2 animate-bounce" style="animation-duration: 2s;">👽</div>
+                    <div class="absolute -top-2 -right-2 w-4 h-4 bg-jadoo-teal rounded-full animate-ping"></div>
+                </div>
+                
+                <!-- Title -->
+                <h1 class="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-jadoo-teal to-jadoo-green bg-clip-text text-transparent">
+                    Jadoo Bit Converter
+                </h1>
+                
+                <!-- Subtitle -->
+                <p class="text-slate-300 text-lg">
+                    Enter any text or number to see the magic!
+                </p>
+            </div>
+            <!-- @END_COMPONENT: Header -->
+
+            <!-- @COMPONENT: ConverterForm [Input and buttons] -->
+            <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border border-slate-700/50 mb-6">
+                
+                <!-- Input field -->
+                <div class="mb-6">
+                    <input 
+                        type="text" 
+                        id="userInput"
+                        placeholder="Type anything. Jadoo won't care 😊" 
+                        class="w-full bg-jadoo-input border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-jadoo-teal focus:border-transparent transition-all duration-200"
+                        data-bind="inputValue"
+                        data-mock="true"
+                    />
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <!-- Convert Button -->
+                    <button 
+                        id="convertBtn"
+                        class="flex-1 bg-jadoo-teal hover:bg-teal-400 text-slate-900 font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-jadoo-teal/25"
+                        data-event="click:handleConvert"
+                        data-implementation="Should convert input to Jadoo bit pattern"
+                    >
+                        <i class="fas fa-magic mr-2"></i>
+                        Convert
+                    </button>
+
+                    <!-- Summon Jadoo Button -->
+                    <button 
+                        id="summonBtn"
+                        class="flex-1 bg-jadoo-green hover:bg-green-400 text-slate-900 font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-jadoo-green/25"
+                        data-event="click:handleSummon"
+                        data-implementation="Should play Jadoo's voice audio"
+                    >
+                        <i class="fas fa-volume-up mr-2"></i>
+                        Summon Jadoo
+                    </button>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: ConverterForm -->
+
+            <!-- @COMPONENT: OutputDisplay [Converted bits display] -->
+            <div id="outputContainer" class="hidden bg-slate-900/60 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border border-slate-600/50 animate-slideUp">
+                <h3 class="text-xl font-semibold mb-4 text-jadoo-teal flex items-center">
+                    <i class="fas fa-code mr-2"></i>
+                    Jadoo Bits Output
+                </h3>
+                <div id="bitsOutput" class="bg-black/30 rounded-xl p-4 font-mono text-sm leading-relaxed min-h-20 max-h-40 overflow-y-auto">
+                    <span class="text-slate-400">Your magical bits will appear here...</span>
+                </div>
+                <div class="mt-4 flex justify-between items-center">
+                    <span class="text-sm text-slate-400" id="outputStats" data-bind="outputLength">0 magical bits generated</span>
+                    <button id="copyBtn" class="text-jadoo-teal hover:text-teal-300 transition-colors" title="Copy to clipboard">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: OutputDisplay -->
+
+            <!-- @COMPONENT: AudioPlayer [Hidden audio element] -->
+            <audio id="jadooVoice" preload="none" data-mock-audio="true" data-implementation="Should contain Jadoo's voice from Koi Mil Gaya movie">
+                <!-- Audio source would be implemented with actual Jadoo voice file -->
+                <!-- <source src="jadoo_voice.mp3" type="audio/mpeg"> -->
+            </audio>
+            <!-- @END_COMPONENT: AudioPlayer -->
+
+        </div>
+
+        <!-- Footer -->
+        <div class="absolute bottom-4 text-center text-slate-500 text-sm">
+            © 2024 Jadoo Bit Converter • Made with 👽 magic
+        </div>
+
+    </div>
+    <!-- @END_COMPONENT: JadooBitConverter -->
+
+    <!-- @FUNCTIONALITY: Core JavaScript functionality for bit conversion and audio playback -->
+    <script>
+        (function() {
+            // @STATE: outputVisible:boolean = false
+            let outputVisible = false;
+            
+            // DOM elements
+            const userInput = document.getElementById('userInput');
+            const convertBtn = document.getElementById('convertBtn');
+            const summonBtn = document.getElementById('summonBtn');
+            const outputContainer = document.getElementById('outputContainer');
+            const bitsOutput = document.getElementById('bitsOutput');
+            const outputStats = document.getElementById('outputStats');
+            const copyBtn = document.getElementById('copyBtn');
+            const jadooVoice = document.getElementById('jadooVoice');
+
+            // Convert input to Jadoo bits pattern
+            function convertToJadooBits(input) {
+                if (!input.trim()) return '';
+                
+                // Convert each character to "I am jadoo" pattern
+                let result = '';
+                const pattern = 'I am jadoo ';
+                
+                for (let char of input) {
+                    // Get ASCII code and convert to binary-like pattern using "I am jadoo"
+                    const asciiCode = char.charCodeAt(0);
+                    const binaryLength = asciiCode.toString(2).length;
+                    
+                    // Repeat pattern based on character's ASCII complexity
+                    const repetitions = Math.max(1, Math.floor(binaryLength / 2));
+                    result += pattern.repeat(repetitions) + '• ';
+                }
+                
+                return result.trim();
+            }
+
+            // Handle convert button click
+            function handleConvert() {
+                const input = userInput.value;
+                
+                if (!input.trim()) {
+                    // TODO: Show error message for empty input
+                    shakeInput();
+                    return;
+                }
+
+                // Show loading state
+                convertBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Converting...';
+                convertBtn.disabled = true;
+
+                // Simulate conversion delay for effect
+                setTimeout(() => {
+                    const jadooBits = convertToJadooBits(input);
+                    displayOutput(jadooBits);
+                    
+                    // Reset button
+                    convertBtn.innerHTML = '<i class="fas fa-magic mr-2"></i>Convert';
+                    convertBtn.disabled = false;
+                }, 800);
+            }
+
+            // Display the converted output
+            function displayOutput(bits) {
+                bitsOutput.innerHTML = `<span class="text-jadoo-teal">${bits}</span>`;
+                outputStats.textContent = `${bits.split('•').length - 1} magical bits generated`;
+                
+                if (!outputVisible) {
+                    outputContainer.classList.remove('hidden');
+                    outputContainer.classList.add('animate-slideUp');
+                    outputVisible = true;
+                }
+            }
+
+            // Handle summon jadoo button
+            function handleSummon() {
+                summonBtn.innerHTML = '<i class="fas fa-volume-up fa-beat mr-2"></i>Summoning...';
+                summonBtn.disabled = true;
+
+                // TODO: Implement actual Jadoo voice playback
+                // For now, simulate audio loading and playback
+                setTimeout(() => {
+                    // Play Jadoo sound effect (placeholder)
+                    console.log('🎵 Playing Jadoo voice: "Jadoo... Jadoo..."');
+                    
+                    // Visual feedback
+                    document.body.classList.add('animate-pulse');
+                    
+                    setTimeout(() => {
+                        document.body.classList.remove('animate-pulse');
+                        summonBtn.innerHTML = '<i class="fas fa-volume-up mr-2"></i>Summon Jadoo';
+                        summonBtn.disabled = false;
+                    }, 2000);
+                }, 500);
+            }
+
+            // Shake input for validation feedback
+            function shakeInput() {
+                userInput.classList.add('animate-bounce');
+                setTimeout(() => userInput.classList.remove('animate-bounce'), 500);
+            }
+
+            // Copy to clipboard functionality
+            function copyToClipboard() {
+                const text = bitsOutput.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    copyBtn.innerHTML = '<i class="fas fa-check text-jadoo-green"></i>';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                    }, 1000);
+                });
+            }
+
+            // Event listeners
+            convertBtn.addEventListener('click', handleConvert);
+            summonBtn.addEventListener('click', handleSummon);
+            copyBtn.addEventListener('click', copyToClipboard);
+            
+            // Enter key to convert
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !convertBtn.disabled) {
+                    handleConvert();
+                }
+            });
+
+            // Auto-focus input on load
+            userInput.focus();
+
+        })();
+    </script>
+
+    <!-- Custom animations -->
+    <style>
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .animate-slideUp {
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Scrollbar styling for output */
+        #bitsOutput::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        #bitsOutput::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.3);
+            border-radius: 3px;
+        }
+        
+        #bitsOutput::-webkit-scrollbar-thumb {
+            background: #4FD1C7;
+            border-radius: 3px;
+        }
+    </style>
+
+</body>
+</html>
