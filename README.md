@@ -108,5 +108,8 @@ npm install
 
 After this, you’ll be ready to run the dev servers, summon Jadoo Bits, and impress aliens everywhere 🛸.
 
-
-
+==Team Members== - 
+1) Vaishnavi Sachan: Frontend Developer
+2) Yashika Chaudhary: Backend Developer
+3) Devika Gupta: Creative Head
+4) Aditya Bhardwaj: BrainStormer
