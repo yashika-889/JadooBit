@@ -1,4 +1,3 @@
-🌌 Jadoo Bit Converter
 Kya socha tha? Ki Jadoo wapas apni duniya mein jaake bas Dhoooop kha raha hai? Arre nahin yaar! Wahan dhoop ka bhi mehenga bill aata hai! Toh usne Rohit ke purane computer se jugaad karke, apna secret side-business shuru kar diya hai.
 Ab apne boring 'Hi', 'Hello' ko Jadoo ki asli bhasha (Binary, bhai!) mein badlo. Bas kuch bhi type karo, dil se 'Om Om Om' bolo, aur 'Summon Jadoo' pe click karke jaadu dekho.
 Duniya ke liye yeh sirf 0 aur 1 hoga, par hum jaante hain... yeh asli Jaadu hai! ✨
